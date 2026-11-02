@@ -375,9 +375,13 @@
       box-shadow: inset 0 0 25px rgba(0,0,0,0.6);
       transition: transform 1.1s cubic-bezier(0.77, 0, 0.175, 1);
     }
-    .curtain-container.opened .curtain-half.left { transform: translateX(-100%); }
-    .curtain-container.opened .curtain-half.right { transform: translateX(100%); }
+    /* Shuru me parde side me khule rahenge */
+    .curtain-half.left { transform: translateX(-100%); }
+    .curtain-half.right { transform: translateX(100%); }
 
+    /* Button dabane par parde band hokar transition denge */
+    .curtain-container.close-curtains .curtain-half.left { transform: translateX(0); }
+    .curtain-container.close-curtains .curtain-half.right { transform: translateX(0); }
     /* Scene 3 Gramophone */
     .gramophone-wrap {
       display: flex;
@@ -1166,8 +1170,10 @@
     }
 
     function openCurtainsAndProceed() {
-      document.getElementById('curtainWrap').classList.add('opened');
-      setTimeout(() => { goToScene(3); }, 1100);
+       document.getElementById('curtainWrap').classList.add('close-curtains');
+       setTimeout(() => { 
+         goToScene(3); 
+       }, 900);
     }
 
     /* ==============================================================

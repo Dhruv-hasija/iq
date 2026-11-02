@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>For Iqra ✨ | A Little Journey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a10;
+      --card-bg: rgba(22, 24, 38, 0.88);
+      --accent: #ff4d79;
+      --accent-glow: rgba(255, 77, 121, 0.45);
+      --gold: #f6c85f;
+      --gold-glow: rgba(246, 200, 95, 0.4);
+      --text: #f0f2f8;
+      --text-muted: #9ba1b6;
+      --parchment: #fdf6e2;
+      --parchment-border: #d4a373;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .ambient-glow::before {
+      content: '';
+      position: absolute;
+      top: -15%;
+      left: 10%;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(255, 77, 121, 0.15) 0%, transparent 70%);
+      filter: blur(40px);
+    }
+    .ambient-glow::after {
+      content: '';
+      position: absolute;
+      bottom: -10%;
+      right: 5%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, transparent 70%);
+      filter: blur(50px);
+    }
+
+    /* Progress bar with clickable navigation */
+    .progress-bar {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+      background: rgba(15, 17, 28, 0.85);
+      backdrop-filter: blur(14px);
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .prog-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .prog-dot.active {
+      background: var(--gold);
+      box-shadow: 0 0 10px var(--gold-glow);
+      width: 26px;
+      border-radius: 999px;
+    }
+
+    .scene {
+      display: none !important;
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      padding: 60px 16px 40px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .scene.active {
+      display: flex !important;
+      opacity: 1;
+    }
+
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+    }
+
+    .btn-magic {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #ff4d79 0%, #d92662 100%);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 14px 28px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 25px var(--accent-glow);
+      transition: all 0.25s ease;
+      width: 100%;
+      max-width: 340px;
+      margin-top: 16px;
+    }
+    .btn-magic:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(255, 77, 121, 0.6);
+    }
+    .btn-magic:active {
+      transform: translateY(1px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #f0f2f8;
+      font-size: 0.9rem;
+      padding: 10px 20px;
+      border-radius: 999px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .title-main {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    /* Scene 1 Bow & Arrow */
+    .game-arena {
+      width: 100%;
+      max-width: 440px;
+      height: 380px;
+      position: relative;
+      border-radius: 24px;
+      background: radial-gradient(circle at 80% 20%, rgba(255, 77, 121, 0.2), rgba(12, 14, 25, 0.98) 75%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.7);
+      margin-bottom: 12px;
+      touch-action: none;
+      overflow: hidden;
+    }
+    .teddy-box {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 105px;
+      height: 105px;
+      cursor: pointer;
+      animation: floatTeddy 3s ease-in-out infinite;
+      z-index: 10;
+    }
+    @keyframes floatTeddy {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(2deg); }
+    }
+    .teddy-box.popped {
+      transform: scale(0);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .bow-rig {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      width: 180px;
+      height: 180px;
+      z-index: 12;
+      pointer-events: none;
+    }
+    .drag-zone {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: rgba(255, 77, 121, 0.08);
+      border: 2px dashed rgba(255, 77, 121, 0.5);
+      cursor: grab;
+      touch-action: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: #ff94b1;
+      font-weight: 600;
+      text-align: center;
+      z-index: 25;
+      transition: background 0.2s ease;
+    }
+    .drag-zone:active {
+      cursor: grabbing;
+      background: rgba(255, 77, 121, 0.22);
+    }
+    .arrow-projectile {
+      position: absolute;
+      width: 80px;
+      height: 10px;
+      pointer-events: none;
+      display: none;
+      z-index: 20;
+    }
+    .burst-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 25;
+    }
+    .burst-particle {
+      position: absolute;
+      pointer-events: none;
+      animation: explodeFade 1.2s forwards cubic-bezier(0.1, 0.8, 0.3, 1);
+    }
+    @keyframes explodeFade {
+      0% { transform: translate(0, 0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+    }
+    .scroll-item {
+      display: none;
+      width: 140px;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.6);
+      z-index: 30;
+      filter: drop-shadow(0 15px 25px rgba(246, 200, 95, 0.4));
+      text-align: center;
+      animation: dropBounce 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    @keyframes dropBounce {
+      0% { transform: translate(-50%, -180%) rotate(-15deg); opacity: 0; }
+      60% { transform: translate(-50%, -40%) rotate(4deg); opacity: 1; }
+      80% { transform: translate(-50%, -55%) rotate(-2deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); opacity: 1; }
+    }
+    .letter-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 5, 10, 0.88);
+      backdrop-filter: blur(12px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .letter-modal.open {
+      display: flex;
+    }
+    .parchment-sheet {
+      background: var(--parchment);
+      color: #3b2816;
+      border: 3px solid var(--parchment-border);
+      border-radius: 16px;
+      padding: 28px 22px 24px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+      text-align: center;
+    }
+    .letter-text {
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem;
+      line-height: 1.4;
+      text-align: left;
+      margin: 16px 0;
+      color: #2b1d10;
+    }
+
+    /* Scene 2 Fog Window */
+    .window-frame {
+      width: 100%;
+      max-width: 460px;
+      height: 360px;
+      border-radius: 20px;
+      border: 8px solid #232738;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+      position: relative;
+      overflow: hidden;
+      background: #111422;
+      margin: 0 auto;
+    }
+    .window-content {
+      position: absolute;
+      inset: 0;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: linear-gradient(145deg, #181b2e 0%, #0d0f1b 100%);
+      z-index: 1;
+      overflow-y: auto;
+    }
+    #fogCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 5;
+      cursor: pointer;
+      touch-action: none;
+    }
+    .curtain-container {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      pointer-events: none;
+    }
+    .curtain-half {
+      flex: 1;
+      height: 100%;
+      background: linear-gradient(90deg, #780d24 0%, #a81938 50%, #560819 100%);
+      box-shadow: inset 0 0 25px rgba(0,0,0,0.6);
+      transition: transform 1.1s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    .curtain-container.opened .curtain-half.left { transform: translateX(-100%); }
+    .curtain-container.opened .curtain-half.right { transform: translateX(100%); }
+
+    /* Scene 3 Gramophone */
+    .gramophone-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 10px 0 15px;
+    }
+    .gramo-svg-box {
+      width: 170px;
+      height: 170px;
+      position: relative;
+      cursor: pointer;
+    }
+    .vinyl-disc {
+      position: absolute;
+      top: 25px;
+      left: 10px;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: repeating-radial-gradient(circle, #151515, #151515 2px, #262626 3px, #151515 4px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .vinyl-disc.spinning {
+      animation: spinVinyl 2.4s linear infinite;
+    }
+    @keyframes spinVinyl {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .vinyl-label {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 3px solid #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+    .tonearm {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      width: 50px;
+      height: 60px;
+      transform-origin: 40px 10px;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: rotate(-25deg);
+    }
+    .tonearm.playing {
+      transform: rotate(12deg);
+    }
+    .music-notes-wrap {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .floating-note {
+      position: absolute;
+      font-size: 18px;
+      color: var(--gold);
+      animation: noteFloat 2s ease-out forwards;
+      opacity: 0;
+    }
+    @keyframes noteFloat {
+      0% { transform: translateY(0) scale(0.5); opacity: 0; }
+      30% { opacity: 1; }
+      100% { transform: translateY(-70px) translateX(25px) scale(1.2); opacity: 0; }
+    }
+    .slider-box {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 14px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 14px;
+      text-align: center;
+    }
+    .slider-box input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+      height: 8px;
+      border-radius: 6px;
+      margin: 10px 0 6px;
+      cursor: pointer;
+    }
+    .slider-reaction {
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 0.95rem;
+      min-height: 22px;
+    }
+
+    /* Scene 4 Puzzle */
+    .puzzle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      width: 270px;
+      height: 270px;
+      margin: 15px auto;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 6px;
+      border-radius: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+    }
+    .puzzle-piece {
+      width: 82px;
+      height: 82px;
+      background-size: 256px 256px;
+      background-repeat: no-repeat;
+      border-radius: 8px;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background-color: #2b1220;
+    }
+    .puzzle-piece.selected {
+      transform: scale(0.92);
+      box-shadow: 0 0 14px var(--accent);
+      border-color: #ff4d79;
+    }
+    .apology-card {
+      display: none;
+      animation: fadeInScale 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      background: linear-gradient(150deg, rgba(30, 20, 28, 0.95), rgba(15, 16, 26, 0.95));
+      border: 1px solid rgba(255, 77, 121, 0.3);
+      padding: 22px;
+      border-radius: 20px;
+      margin-top: 15px;
+    }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Scene 5 Finale */
+    .shayari-box {
+      background: linear-gradient(135deg, rgba(246, 200, 95, 0.08) 0%, rgba(255, 77, 121, 0.08) 100%);
+      border: 1px solid rgba(246, 200, 95, 0.25);
+      border-radius: 20px;
+      padding: 24px;
+      margin: 18px 0;
+      position: relative;
+    }
+    .shayari-box::before {
+      content: '“';
+      position: absolute;
+      top: -15px;
+      left: 18px;
+      font-size: 60px;
+      color: var(--gold);
+      opacity: 0.3;
+      font-family: serif;
+      line-height: 1;
+    }
+    .shayari-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      line-height: 1.7;
+      color: #fff;
+      text-align: center;
+    }
+    .link-config-box {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.12);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      width: 100%;
+    }
+    .link-config-box input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: #f0f2f8;
+      font-size: 0.8rem;
+      margin-top: 6px;
+      outline: none;
+    }
+    .sparkle-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 999;
+      animation: flyUpFade 1.4s forwards ease-out;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Dots -->
+  <div class="progress-bar">
+    <div class="prog-dot active" title="Page 1" onclick="goToScene(1)"></div>
+    <div class="prog-dot" title="Page 2" onclick="goToScene(2)"></div>
+    <div class="prog-dot" title="Page 3" onclick="goToScene(3)"></div>
+    <div class="prog-dot" title="Page 4" onclick="goToScene(4)"></div>
+    <div class="prog-dot" title="Page 5" onclick="goToScene(5)"></div>
+  </div>
+
+  <div class="ambient-glow"></div>
+
+  <!-- SCENE 1: BOW & ARROW -->
+  <section class="scene active" id="scene1">
+    <div class="glass-card" style="text-align: center;">
+      <span class="badge">Target Locked 🏹✨</span>
+      <h1 class="title-main">Aim & Pop The Teddy!</h1>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+        Peeche string ko kheecho aur teddy pe aim leke release karo! ✨
+      </p>
+
+      <div class="game-arena" id="arena">
+        <div class="teddy-box" id="teddyTarget" onclick="popTeddy()">
+          <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M 20 85 Q 10 85 15 72 Q 10 58 25 58 Q 32 45 48 48 Q 62 42 72 52 Q 88 50 85 68 Q 92 82 78 85 Z" fill="rgba(255,255,255,0.7)"/>
+            <circle cx="32" cy="28" r="12" fill="#c48a56"/>
+            <circle cx="32" cy="28" r="7" fill="#f2b480"/>
+            <circle cx="68" cy="28" r="12" fill="#c48a56"/>
+            <circle cx="68" cy="28" r="7" fill="#f2b480"/>
+            <ellipse cx="50" cy="62" rx="24" ry="22" fill="#d99b64"/>
+            <circle cx="50" cy="38" r="22" fill="#d99b64"/>
+            <ellipse cx="50" cy="64" rx="14" ry="13" fill="#f5caa0"/>
+            <ellipse cx="50" cy="42" rx="9" ry="7" fill="#f5caa0"/>
+            <ellipse cx="50" cy="39" rx="3.5" ry="2.5" fill="#362213"/>
+            <circle cx="42" cy="34" r="2.8" fill="#22140a"/>
+            <circle cx="58" cy="34" r="2.8" fill="#22140a"/>
+            <circle cx="36" cy="40" r="3.5" fill="rgba(255,100,130,0.4)"/>
+            <circle cx="64" cy="40" r="3.5" fill="rgba(255,100,130,0.4)"/>
+            <path d="M 50 56 C 45 50, 38 53, 42 61 L 50 68 L 58 61 C 62 53, 55 50, 50 56 Z" fill="#ff4d79"/>
+          </svg>
+        </div>
+
+        <svg class="bow-rig" id="bowSvg" viewBox="0 0 180 180">
+          <defs>
+            <linearGradient id="woodGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#5a2e12"/>
+              <stop offset="50%" stop-color="#b07d4b"/>
+              <stop offset="100%" stop-color="#4a240c"/>
+            </linearGradient>
+          </defs>
+          <path d="M 45 135 Q 120 120 135 45" fill="none" stroke="url(#woodGrad)" stroke-width="8" stroke-linecap="round"/>
+          <path d="M 45 135 Q 120 120 135 45" fill="none" stroke="#f6c85f" stroke-width="2" stroke-linecap="round" stroke-dasharray="4,6"/>
+          <path id="dynamicString" d="M 45 135 L 75 105 L 135 45" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+          <g id="restingArrow">
+            <line x1="60" y1="120" x2="135" y2="45" stroke="#f0f2f8" stroke-width="3" stroke-linecap="round"/>
+            <polygon points="142,38 126,44 136,54" fill="#ff4d79"/>
+            <path d="M 142 38 C 145 34, 150 36, 147 43 L 140 48 L 135 43 C 132 36, 138 34, 142 38 Z" fill="#ff4d79"/>
+            <line x1="60" y1="120" x2="52" y2="120" stroke="#f6c85f" stroke-width="2.5"/>
+            <line x1="60" y1="120" x2="60" y2="128" stroke="#f6c85f" stroke-width="2.5"/>
+          </g>
+        </svg>
+
+        <div class="drag-zone" id="pullZone">
+          <span style="font-size: 1.1rem; margin-bottom: 2px;">🏹</span>
+          <span>Pull &<br>Release</span>
+        </div>
+
+        <div class="arrow-projectile" id="flightArrow">
+          <svg viewBox="0 0 80 20" width="100%" height="100%">
+            <line x1="5" y1="10" x2="68" y2="10" stroke="#ffffff" stroke-width="3"/>
+            <path d="M 68 10 L 60 4 L 62 10 L 60 16 Z" fill="#ff4d79"/>
+            <circle cx="72" cy="10" r="5" fill="#ff4d79"/>
+          </svg>
+        </div>
+
+        <div class="burst-layer" id="burstLayer"></div>
+
+        <div class="scroll-item" id="droppedScroll" onclick="openScrollLetter()">
+          <svg viewBox="0 0 100 65" width="100%">
+            <rect x="18" y="12" width="64" height="40" rx="6" fill="#fdf6e2" stroke="#d4a373" stroke-width="3"/>
+            <ellipse cx="18" cy="32" rx="7" ry="20" fill="#f4ecd8" stroke="#d4a373" stroke-width="2"/>
+            <ellipse cx="82" cy="32" rx="7" ry="20" fill="#fdf6e2" stroke="#d4a373" stroke-width="2"/>
+            <rect x="46" y="10" width="8" height="44" fill="#ff4d79" rx="2"/>
+            <circle cx="50" cy="32" r="7" fill="#f6c85f" stroke="#b07d4b" stroke-width="1.5"/>
+            <text x="50" y="35" font-size="8" text-anchor="middle" fill="#503512">✨</text>
+          </svg>
+          <div style="font-size: 0.8rem; font-weight: 700; color: var(--gold); margin-top: 4px;">
+            Tap to Open 📜✨
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-magic" onclick="shootArrowDirect()">Direct Shoot! 🏹</button>
+      <button class="btn-secondary" onclick="goToScene(2)">Skip to Next Page 👉</button>
+    </div>
+  </section>
+
+  <!-- Letter Modal -->
+  <div class="letter-modal" id="letterModal">
+    <div class="parchment-sheet">
+      <span style="font-size: 26px;">📜✨</span>
+      <h2 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #694119; margin-top: 6px;">Dear Iq,</h2>
+      <div class="letter-text">
+        "I just wanted to take a moment to say <strong>thank you</strong>... <br><br>
+        Jab mere tough times chal rahe the, jab dimaag bilkul freeze ho jata tha aur cheezein samajh nahi aati thi, 
+        tu wahan thi. Bina kisi complaint ke, bina judge kiye bas saath khadi rahi. 
+        <br><br>
+        Honestly, you have no idea how much your presence actually grounded me. Tu bohot precious hai Iq, sach me. ✨"
+      </div>
+      <button class="btn-magic" style="background: #a8432a; margin-top: 8px;" onclick="closeModalAndGoToScene(2)">
+        Aage Dekho 👉✨
+      </button>
+    </div>
+  </div>
+
+  <!-- SCENE 2: STEAMY WINDOW -->
+  <section class="scene" id="scene2">
+    <div class="glass-card" style="text-align: center;">
+      <span class="badge">The Foggy Window 🪟💭</span>
+      <h1 class="title-main">Rub The Mist Away</h1>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+        Screen pe ungli ya cursor se dhundh (fog) ko wipe karo! ✨
+      </p>
+
+      <div class="window-frame">
+        <div class="window-content">
+          <span style="font-size: 28px; margin-bottom: 8px;">🤍✨</span>
+          <h3 style="font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--gold); margin-bottom: 8px;">
+            To My Favorite Listener, Iq
+          </h3>
+          <p style="font-size: 0.95rem; line-height: 1.6; color: #e2e8f0;">
+            Thank you meri be-sar-o-pair ki bakwaas sunne ke liye! 🤭 <br>
+            Wo late-night random baatein, bina sar-pair ke arguments, 
+            aur humari stupid funny banter... <br>
+            Din bhar ki kitni bhi thakaan ya stress ho, tere se ladai aur baatein karke sab gayab ho jata hai.
+            You're literally unmatched in dealing with my chaos! 👑
+          </p>
+        </div>
+
+        <canvas id="fogCanvas"></canvas>
+
+        <div class="curtain-container" id="curtainWrap">
+          <div class="curtain-half left"></div>
+          <div class="curtain-half right"></div>
+        </div>
+      </div>
+
+      <button class="btn-secondary" onclick="quickClearFog()">Insta-Clear Mist ✨</button>
+      <button class="btn-magic" onclick="openCurtainsAndProceed()">
+        Slide Curtains Aside 🎭✨
+      </button>
+    </div>
+  </section>
+
+  <!-- SCENE 3: GRAMOPHONE (SELF-HEALING AUDIO ENGINE) -->
+  <section class="scene" id="scene3">
+    <div class="glass-card" style="text-align: center;">
+      <span class="badge">Vibe Check & Melodies 🎶📻</span>
+      <h1 class="title-main">Spin The Record</h1>
+      <p style="font-size: 0.88rem; color: var(--text-muted);">
+        Gramophone pe tap karo music play/pause karne ke liye ✨
+      </p>
+
+      <div class="gramophone-wrap">
+        <div class="gramo-svg-box" id="gramoButton" onclick="toggleMusic()">
+          <div class="music-notes-wrap" id="notesLayer"></div>
+          <svg viewBox="0 0 180 180" width="100%" height="100%">
+            <rect x="25" y="115" width="130" height="42" rx="10" fill="#6a3818" stroke="#3b1d09" stroke-width="3"/>
+            <rect x="35" y="123" width="110" height="8" rx="4" fill="#a45a2a"/>
+            <path d="M 90 115 C 80 85, 120 45, 150 35 C 165 30, 175 42, 165 65 C 150 88, 115 105, 95 115 Z" fill="url(#brassGrad)" stroke="#c49a38" stroke-width="2"/>
+            <defs>
+              <linearGradient id="brassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ffe17d"/>
+                <stop offset="50%" stop-color="#d4a034"/>
+                <stop offset="100%" stop-color="#8a5c13"/>
+              </linearGradient>
+            </defs>
+          </svg>
+
+          <div class="vinyl-disc" id="vinylDisc">
+            <div class="vinyl-label">✨</div>
+          </div>
+
+          <svg class="tonearm" id="tonearmNeedle" viewBox="0 0 50 70">
+            <circle cx="40" cy="10" r="7" fill="#b38728"/>
+            <path d="M 40 10 L 22 45 L 12 58" fill="none" stroke="#dcdcdc" stroke-width="3" stroke-linecap="round"/>
+            <rect x="8" y="55" width="8" height="12" rx="2" fill="#333" transform="rotate(20 12 60)"/>
+          </svg>
+        </div>
+
+        <span id="playStatusText" style="font-size: 0.82rem; color: var(--gold); font-weight: 600; margin-top: 8px;">
+          ▶ Tap to Play Track
+        </span>
+      </div>
+
+      <div class="slider-box">
+        <label for="musicRate" style="font-size: 0.88rem; font-weight: 600; color: #fff;">
+          Rate This Vibe / Track (1 to 100) 🤭
+        </label>
+        <input type="range" id="musicRate" min="1" max="100" value="85" oninput="updateSliderReaction(this.value)">
+        <div class="slider-reaction" id="sliderText">85/100: "Quite iconic ngl! ✨"</div>
+      </div>
+
+      <button class="btn-magic" onclick="goToScene(4)">Next: One Memory Puzzle 🧩✨</button>
+    </div>
+  </section>
+
+  <!-- SCENE 4: JIGSAW PUZZLE (AUTO-FALLBACK IMAGE) -->
+  <section class="scene" id="scene4">
+    <div class="glass-card" style="text-align: center;">
+      <span class="badge">A Little Memory 🧩🤍</span>
+      <h1 class="title-main">Fix Our Photo</h1>
+      <p style="font-size: 0.88rem; color: var(--text-muted);">
+        Pieces pe tap karke swap karo aur photo jodo! ✨
+      </p>
+
+      <div class="puzzle-grid" id="puzzleGrid"></div>
+
+      <button class="btn-secondary" onclick="autoSolvePuzzle()">Quick Solve Puzzle ✨</button>
+
+      <div class="apology-card" id="apologyBox">
+        <span style="font-size: 32px;">🕯️🤍</span>
+        <h3 style="font-family: 'Playfair Display', serif; font-size: 1.35rem; color: #fff; margin: 8px 0;">
+          From The Bottom of My Heart, I'm Sorry.
+        </h3>
+        <p style="font-size: 0.92rem; line-height: 1.6; color: #cbd5e1; text-align: left; margin: 12px 0;">
+          I know main perfect nahi hoon, Iq. Kabhi kabhi jane-anjane me meri baaton se ya mere mood swings se tujhe bura lag jata hai. 
+          Mera intention tujhe hurt karne ka 0.1% bhi nahi hota, par agar meri kisi harkat ne tere dil ko dukhaya ho... 
+          <strong>I am genuinely, truly sorry.</strong> 
+          <br><br>
+          Teri dosti aur tu mere liye bohot maayne rakhti hai, and I never want to be the reason behind your sad mood.
+        </p>
+
+        <button class="btn-magic" style="background: linear-gradient(135deg, #f6c85f, #d49a24); color: #201300;" onclick="goToScene(5)">
+          One Last Thing For You 🌸✨
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 5: FINALE -->
+  <section class="scene" id="scene5">
+    <div class="glass-card" style="text-align: center;">
+      <span class="badge">From Me To You ✨🌸</span>
+      <h1 class="title-main">Always & Forever, Iq ✨</h1>
+
+      <div class="shayari-box">
+        <p class="shayari-text">
+          "Hazaron ki bheed me bhi tera alag hi noor hai,<br>
+          Tu paas ho toh har ek gham mujhse bohot door hai...<br>
+          Meri har be-matlab baat ko muskura kar sunne wali,<br>
+          Yeh dosti tere dam se hi toh sabse khoobsurat aur mashhoor hai." ✨
+        </p>
+      </div>
+
+      <p style="font-size: 0.95rem; line-height: 1.6; color: #e2e8f0; margin: 15px 0;">
+        Stay with me forever, Iq. Tu jaisi hai bas waise hi rehna—unfiltered, genuine aur sabse pyaari! 🤍✨
+      </p>
+
+      <button class="btn-magic" style="font-size: 1.05rem;" onclick="openDigiBouquet()">
+        Open Your Digital Bouquet 💐✨
+      </button>
+
+      <div class="link-config-box">
+        <label for="bouquetUrlInput">Link your Bouquet website here:</label>
+        <input type="text" id="bouquetUrlInput" value="https://digibouquet.vercel.app/bouquet/43d303b2-6475-4099-8966-aa6b7908a33c" placeholder="https://your-digital-bouquet-site.com">
+      </div>
+    </div>
+  </section>
+
+  <script>
+    /* ==============================================================
+       NAVIGATION
+       ============================================================== */
+    function goToScene(num) {
+      document.querySelectorAll('.scene').forEach(sc => sc.classList.remove('active'));
+      const target = document.getElementById(`scene${num}`);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      document.querySelectorAll('.prog-dot').forEach((dot, idx) => {
+        if (idx + 1 === num) dot.classList.add('active');
+        else dot.classList.remove('active');
+      });
+
+      if (num === 2) setTimeout(initFogCanvas, 60);
+      else if (num === 4) setTimeout(initPuzzle, 60);
+    }
+
+    function closeModalAndGoToScene(num) {
+      document.getElementById('letterModal').classList.remove('open');
+      goToScene(num);
+    }
+
+    /* ==============================================================
+       BULLETPROOF AUDIO ENGINE (ZERO CRASH GUARANTEE)
+       ============================================================== */
+    let audioObj = null;
+    let isPlayingGramo = false;
+    let synthInterval = null;
+    let audioContext = null;
+
+    // Potential audio file paths
+    const audioCandidates = ['./assets/song.mp3', 'assets/song.mp3', 'song.mp3'];
+    let currentCandidateIndex = 0;
+
+    function getAudioCtx() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      return audioContext;
+    }
+
+    // Fallback Lo-fi Melody synthesizer (if browser blocks local mp3)
+    const lofiChords = [
+      [261.63, 329.63, 392.00, 493.88],
+      [220.00, 261.63, 329.63, 392.00],
+      [174.61, 220.00, 261.63, 329.63],
+      [196.00, 246.94, 293.66, 349.23]
+    ];
+    let chordPointer = 0;
+
+    function playSynthLoop() {
+      if (!isPlayingGramo) return;
+      try {
+        const ctx = getAudioCtx();
+        const chord = lofiChords[chordPointer];
+        chordPointer = (chordPointer + 1) % lofiChords.length;
+
+        chord.forEach(freq => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, ctx.currentTime);
+          gain.gain.setValueAtTime(0.001, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.07, ctx.currentTime + 0.2);
+          gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.9);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 2.0);
+        });
+        spawnFloatingNote();
+        synthInterval = setTimeout(playSynthLoop, 1700);
+      } catch(e) {}
+    }
+
+    function tryPlayAudioCandidate() {
+      if (currentCandidateIndex >= audioCandidates.length) {
+        // All local mp3 candidate paths exhausted -> Switch seamlessly to Synthesizer without throwing alert
+        playSynthLoop();
+        return;
+      }
+
+      if (!audioObj) {
+        audioObj = new Audio();
+      }
+
+      audioObj.src = audioCandidates[currentCandidateIndex];
+      audioObj.play().then(() => {
+        // Success
+      }).catch(() => {
+        currentCandidateIndex++;
+        tryPlayAudioCandidate();
+      });
+    }
+
+    function toggleMusic() {
+      const disc = document.getElementById('vinylDisc');
+      const tonearm = document.getElementById('tonearmNeedle');
+      const text = document.getElementById('playStatusText');
+
+      if (!isPlayingGramo) {
+        isPlayingGramo = true;
+        disc.classList.add('spinning');
+        tonearm.classList.add('playing');
+        text.textContent = '⏸ Playing Track... (Tap to Pause)';
+        currentCandidateIndex = 0;
+        tryPlayAudioCandidate();
+      } else {
+        isPlayingGramo = false;
+        disc.classList.remove('spinning');
+        tonearm.classList.remove('playing');
+        text.textContent = '▶ Tap to Play Track';
+        if (audioObj) audioObj.pause();
+        clearTimeout(synthInterval);
+      }
+    }
+
+    function spawnFloatingNote() {
+      const wrap = document.getElementById('notesLayer');
+      const note = document.createElement('div');
+      note.className = 'floating-note';
+      note.textContent = ['🎵', '🎶', '✨'][Math.floor(Math.random() * 3)];
+      note.style.left = `${70 + Math.random() * 30}px`;
+      note.style.top = '30px';
+      wrap.appendChild(note);
+      setTimeout(() => note.remove(), 2000);
+    }
+
+    /* ==============================================================
+       CHAPTER 1: AIM & PULL ARCHERY
+       ============================================================== */
+    let teddyIsPopped = false;
+    const pullZone = document.getElementById('pullZone');
+    const dynamicString = document.getElementById('dynamicString');
+    const restingArrow = document.getElementById('restingArrow');
+    const flightArrow = document.getElementById('flightArrow');
+
+    let isPulling = false;
+    let originX = 0, originY = 0;
+
+    function handlePullStart(e) {
+      if (teddyIsPopped) return;
+      isPulling = true;
+      originX = e.clientX || (e.touches && e.touches[0].clientX);
+      originY = e.clientY || (e.touches && e.touches[0].clientY);
+      pullZone.style.transition = 'none';
+    }
+
+    function handlePullMove(e) {
+      if (!isPulling || teddyIsPopped) return;
+      const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+      const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+      const dx = clientX - originX;
+      const dy = clientY - originY;
+
+      const pullDist = Math.min(Math.hypot(dx, dy), 55);
+      const angle = Math.atan2(dy, dx);
+      const offX = Math.cos(angle) * pullDist;
+      const offY = Math.sin(angle) * pullDist;
+
+      pullZone.style.transform = `translate(${offX}px, ${offY}px)`;
+      dynamicString.setAttribute('d', `M 45 135 L ${75 + offX * 0.7} ${105 + offY * 0.7} L 135 45`);
+      restingArrow.style.transform = `translate(${offX * 0.6}px, ${offY * 0.6}px)`;
+    }
+
+    function handlePullEnd() {
+      if (!isPulling) return;
+      isPulling = false;
+
+      pullZone.style.transition = 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      pullZone.style.transform = 'translate(0px, 0px)';
+      dynamicString.setAttribute('d', 'M 45 135 L 75 105 L 135 45');
+      restingArrow.style.transform = 'translate(0px, 0px)';
+
+      fireArrowPhysics();
+    }
+
+    pullZone.addEventListener('mousedown', handlePullStart);
+    window.addEventListener('mousemove', handlePullMove);
+    window.addEventListener('mouseup', handlePullEnd);
+
+    pullZone.addEventListener('touchstart', handlePullStart, { passive: true });
+    window.addEventListener('touchmove', handlePullMove, { passive: true });
+    window.addEventListener('touchend', handlePullEnd);
+
+    function shootArrowDirect() {
+      if (teddyIsPopped) return;
+      fireArrowPhysics();
+    }
+
+    function fireArrowPhysics() {
+      restingArrow.style.display = 'none';
+      flightArrow.style.display = 'block';
+      flightArrow.style.left = '70px';
+      flightArrow.style.bottom = '110px';
+      flightArrow.style.transform = 'rotate(-45deg)';
+
+      const anim = flightArrow.animate([
+        { transform: 'translate(0px, 0px) rotate(-45deg)', opacity: 1 },
+        { transform: 'translate(230px, -190px) rotate(-45deg)', opacity: 1 }
+      ], {
+        duration: 320,
+        easing: 'ease-in',
+        fill: 'forwards'
+      });
+
+      anim.onfinish = () => {
+        flightArrow.style.display = 'none';
+        popTeddy();
+      };
+    }
+
+    function popTeddy() {
+      if (teddyIsPopped) return;
+      teddyIsPopped = true;
+
+      const teddy = document.getElementById('teddyTarget');
+      teddy.classList.add('popped');
+
+      const burst = document.getElementById('burstLayer');
+      const emojis = ['☁️', '🤍', '✨', '🌸', '💖'];
+      for (let i = 0; i < 35; i++) {
+        const p = document.createElement('div');
+        p.className = 'burst-particle';
+        p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        p.style.right = '70px';
+        p.style.top = '70px';
+        p.style.fontSize = `${16 + Math.random() * 18}px`;
+
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 50 + Math.random() * 120;
+        p.style.setProperty('--tx', `${Math.cos(angle) * dist}px`);
+        p.style.setProperty('--ty', `${Math.sin(angle) * dist}px`);
+        burst.appendChild(p);
+      }
+
+      setTimeout(() => {
+        document.getElementById('droppedScroll').style.display = 'block';
+      }, 450);
+    }
+
+    function openScrollLetter() {
+      document.getElementById('letterModal').classList.add('open');
+    }
+
+    /* ==============================================================
+       SCENE 2: FOG CANVAS
+       ============================================================== */
+    let fogInitialized = false;
+    function initFogCanvas() {
+      if (fogInitialized) return;
+      const canvas = document.getElementById('fogCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+
+      ctx.fillStyle = 'rgba(215, 225, 240, 0.94)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < 70; i++) {
+        ctx.beginPath();
+        ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 6 + 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.fill();
+      }
+
+      let isWiping = false;
+
+      function clearPoint(x, y) {
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        const rad = 28;
+        const grad = ctx.createRadialGradient(x, y, 5, x, y, rad);
+        grad.addColorStop(0, 'rgba(0,0,0,1)');
+        grad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = grad;
+        ctx.arc(x, y, rad, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function handleWipe(e) {
+        const bounds = canvas.getBoundingClientRect();
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        clearPoint(clientX - bounds.left, clientY - bounds.top);
+      }
+
+      canvas.addEventListener('mousedown', (e) => { isWiping = true; handleWipe(e); });
+      window.addEventListener('mousemove', (e) => { if (isWiping) handleWipe(e); });
+      window.addEventListener('mouseup', () => { isWiping = false; });
+
+      canvas.addEventListener('touchstart', (e) => { isWiping = true; handleWipe(e); }, { passive: true });
+      canvas.addEventListener('touchmove', (e) => { if (isWiping) handleWipe(e); }, { passive: true });
+      canvas.addEventListener('touchend', () => { isWiping = false; });
+
+      fogInitialized = true;
+    }
+
+    function quickClearFog() {
+      const canvas = document.getElementById('fogCanvas');
+      if (canvas) {
+        canvas.style.transition = 'opacity 0.7s ease';
+        canvas.style.opacity = '0';
+        setTimeout(() => { canvas.style.display = 'none'; }, 700);
+      }
+    }
+
+    function openCurtainsAndProceed() {
+      document.getElementById('curtainWrap').classList.add('opened');
+      setTimeout(() => { goToScene(3); }, 1100);
+    }
+
+    /* ==============================================================
+       SCENE 3: SLIDER
+       ============================================================== */
+    function updateSliderReaction(val) {
+      const text = document.getElementById('sliderText');
+      if (val < 30) {
+        text.textContent = `${val}/100: "Arey itna kam? Dil toot gaya! 🥲"`;
+      } else if (val < 70) {
+        text.textContent = `${val}/100: "Decent vibes, par Iq ko aur chahiye! 🤭"`;
+      } else if (val < 95) {
+        text.textContent = `${val}/100: "Quite iconic ngl! ✨"`;
+      } else {
+        text.textContent = `${val}/100: "100/100! Iqra supremacy always! 👑✨"`;
+      }
+    }
+
+    /* ==============================================================
+       SCENE 4: JIGSAW PUZZLE (SELF-HEALING IMAGE RESOLVER)
+       ============================================================== */
+    let puzzleTiles = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    let selectedTileIndex = null;
+    let puzzleDone = false;
+
+    // Image path resolution sequence
+    const photoCandidates = ['./assets/photo.jpg', 'assets/photo.jpg', 'photo.jpg'];
+    let workingPhotoSrc = photoCandidates[0];
+
+    function resolveWorkingImage() {
+      let idx = 0;
+      function tryNext() {
+        if (idx >= photoCandidates.length) {
+          // Use SVG fallback if photo missing
+          workingPhotoSrc = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256"><rect width="256" height="256" fill="%232b1220"/><circle cx="128" cy="110" r="45" fill="%23ff4d79" opacity="0.4"/><path d="M 128 75 C 105 50, 60 75, 95 115 L 128 150 L 161 115 C 196 75, 151 50, 128 75 Z" fill="%23ff4d79"/><text x="128" y="190" font-size="18" font-family="sans-serif" font-weight="bold" text-anchor="middle" fill="%23f6c85f">Bestie Bond ✨</text></svg>`;
+          renderPuzzle();
+          return;
+        }
+        const img = new Image();
+        img.src = photoCandidates[idx];
+        img.onload = () => {
+          workingPhotoSrc = photoCandidates[idx];
+          renderPuzzle();
+        };
+        img.onerror = () => {
+          idx++;
+          tryNext();
+        };
+      }
+      tryNext();
+    }
+
+    function initPuzzle() {
+      if (puzzleDone) return;
+      puzzleTiles = [4, 7, 0, 1, 8, 2, 5, 3, 6];
+      resolveWorkingImage();
+    }
+
+    function renderPuzzle() {
+      const grid = document.getElementById('puzzleGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      puzzleTiles.forEach((tilePos, idx) => {
+        const piece = document.createElement('div');
+        piece.className = 'puzzle-piece';
+        if (selectedTileIndex === idx) piece.classList.add('selected');
+
+        const row = Math.floor(tilePos / 3);
+        const col = tilePos % 3;
+        
+        piece.style.backgroundImage = `url('${workingPhotoSrc}')`;
+        piece.style.backgroundPosition = `-${col * 85}px -${row * 85}px`;
+        piece.onclick = () => onTileClick(idx);
+
+        grid.appendChild(piece);
+      });
+    }
+
+    function onTileClick(idx) {
+      if (puzzleDone) return;
+      if (selectedTileIndex === null) {
+        selectedTileIndex = idx;
+        renderPuzzle();
+      } else {
+        const temp = puzzleTiles[selectedTileIndex];
+        puzzleTiles[selectedTileIndex] = puzzleTiles[idx];
+        puzzleTiles[idx] = temp;
+        selectedTileIndex = null;
+        renderPuzzle();
+        checkPuzzleSuccess();
+      }
+    }
+
+    function checkPuzzleSuccess() {
+      const isSolved = puzzleTiles.every((val, idx) => val === idx);
+      if (isSolved) {
+        puzzleDone = true;
+        document.querySelectorAll('.puzzle-piece').forEach(p => {
+          p.style.borderColor = 'var(--gold)';
+          p.style.boxShadow = '0 0 15px var(--gold-glow)';
+        });
+        document.getElementById('apologyBox').style.display = 'block';
+        triggerSparkles();
+      }
+    }
+
+    function autoSolvePuzzle() {
+      puzzleTiles = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+      selectedTileIndex = null;
+      renderPuzzle();
+      checkPuzzleSuccess();
+    }
+
+    /* ==============================================================
+       SCENE 5: FINALE & CONFETTI
+       ============================================================== */
+    function triggerSparkles() {
+      for (let i = 0; i < 20; i++) {
+        const spark = document.createElement('div');
+        spark.className = 'sparkle-particle';
+        spark.textContent = ['✨', '💖', '🌸', '🤍'][Math.floor(Math.random() * 4)];
+        spark.style.left = `${Math.random() * 90 + 5}vw`;
+        spark.style.top = `${Math.random() * 40 + 40}vh`;
+        spark.style.fontSize = `${20 + Math.random() * 16}px`;
+        document.body.appendChild(spark);
+        setTimeout(() => spark.remove(), 1400);
+      }
+    }
+
+    function openDigiBouquet() {
+      triggerSparkles();
+      const customUrl = document.getElementById('bouquetUrlInput').value.trim() || 'https://digibouquet.vercel.app/bouquet/43d303b2-6475-4099-8966-aa6b7908a33c';
+      window.open(customUrl, '_blank');
+    }
+  </script>
+</body>
+</html>
